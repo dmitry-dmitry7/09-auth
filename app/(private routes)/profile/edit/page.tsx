@@ -3,11 +3,16 @@
 import css from './EditProfilePage.module.css';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useAuthStore } from '@/lib/store/authStore';
 import Image from 'next/image';
 import { getMe, updateMe } from '@/lib/api/clientApi';
 
 export default function EditProfile() {
   const router = useRouter();
+
+  // Отримуємо метод із стора
+  const setUser = useAuthStore(state => state.setUser);
+
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [avatar, setAvatar] = useState('');
@@ -28,8 +33,13 @@ export default function EditProfile() {
     event.preventDefault();
 
     try {
-      await updateMe({ username, email });
-      router.push('/profile');
+      const user = await updateMe({ username });
+      if (user) {
+        // Записуємо користувача у глобальний стан
+        setUser(user);
+
+        router.push('/profile');
+      }
     } catch (error) {
       console.error('Failed to update user:', error);
     }

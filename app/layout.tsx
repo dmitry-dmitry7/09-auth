@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Notes app',
     description: 'A simple note app built with Next.js, React Query.',
-    url: 'https://08-zustand-jet-zeta.vercel.app/',
+    url: 'https://09-auth-one-lyart.vercel.app/',
     images: [
       {
         url: 'https://ac.goit.global/fullstack/react/notehub-og-meta.jpg',
@@ -53,7 +53,6 @@ export default function RootLayout({
             <Header />
             {children}
             {modal}
-            {/* <div id="modal-root" /> */}
             <Footer />
           </AuthProvider>
         </TanStackProvider>

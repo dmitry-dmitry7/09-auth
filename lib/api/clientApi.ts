@@ -2,8 +2,6 @@ import { nextServer } from './api';
 import type { Note, NewNote } from '@/types/note';
 import type { User } from '@/types/user';
 
-const myKey = process.env.NEXT_PUBLIC_NOTEHUB_TOKEN;
-
 interface NotesHttpResponse {
   notes: Note[];
   totalPages: number;
@@ -21,9 +19,6 @@ export const fetchNotes = async (
       page,
       perPage: 12,
     },
-    headers: {
-      Authorization: `Bearer ${myKey}`,
-    },
   };
 
   const res = await nextServer.get<NotesHttpResponse>('/notes', config);
@@ -31,39 +26,20 @@ export const fetchNotes = async (
 };
 
 export const fetchNoteById = async (noteId: string): Promise<Note> => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${myKey}`,
-    },
-  };
-
-  const res = await nextServer.get<Note>(`/notes/${noteId}`, config);
+  const res = await nextServer.get<Note>(`/notes/${noteId}`);
   return res.data;
 };
 
 export const createNote = async (newNote: NewNote) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${myKey}`,
-    },
-  };
-
-  const res = await nextServer.post<Note>('/notes', newNote, config);
+  const res = await nextServer.post<Note>('/notes', newNote);
   return res.data;
 };
 
 export const deleteNote = async (noteId: string) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${myKey}`,
-    },
-  };
-
-  const res = await nextServer.delete<Note>(`/notes/${noteId}`, config);
+  const res = await nextServer.delete<Note>(`/notes/${noteId}`);
   return res.data;
 };
 
-// AUTH
 export type RegisterRequest = {
   email: string;
   password: string;
@@ -104,7 +80,6 @@ export const logout = async (): Promise<void> => {
 
 export type UpdateUserRequest = {
   username: string;
-  email: string;
 };
 
 export const updateMe = async (payload: UpdateUserRequest) => {

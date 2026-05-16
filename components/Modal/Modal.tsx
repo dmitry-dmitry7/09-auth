@@ -1,4 +1,3 @@
-import { createPortal } from 'react-dom';
 import { useEffect } from 'react';
 import css from './Modal.module.css';
 
@@ -36,15 +35,19 @@ export default function Modal({ onClose, children }: ModalProps) {
     };
   }, []);
 
-  return createPortal(
-    <div className={css.backdrop} role="dialog" aria-modal="true" onClick={handleBackdropClick}>
+  return (
+    <div
+      className={css.backdrop}
+      role="dialog"
+      aria-modal="true"
+      onClick={handleBackdropClick}
+    >
       <div className={css.modal}>
         <button type="button" className={css.closeBtn} onClick={onClose}>
           ×
         </button>
         {children}
       </div>
-    </div>,
-    document.getElementById('modal-root') as HTMLDivElement
+    </div>
   );
 }
